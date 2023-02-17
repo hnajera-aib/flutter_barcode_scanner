@@ -44,6 +44,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.TextView;
 
 
 import com.amolg.flutterbarcodescanner.camera.CameraSource;
@@ -76,6 +77,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
+    private TextView textView;
     private GraphicOverlay<BarcodeGraphic> mGraphicOverlay;
 
     // helper objects for detecting taps and pinches.
@@ -110,10 +112,13 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
             setContentView(R.layout.barcode_capture);
 
             String buttonText = "";
+            String hintText = "";
             try {
                     buttonText = (String) getIntent().getStringExtra("cancelButtonText");
+                    hintText = (String) getIntent().getStringExtra("hintText");
         } catch (Exception e) {
             buttonText = "Cancel";
+            hintText = "";
             Log.e("BCActivity:onCreate()", "onCreate: " + e.getLocalizedMessage());
         }
 
@@ -130,6 +135,9 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
 
         mPreview = findViewById(R.id.preview);
         mGraphicOverlay = findViewById(R.id.graphicOverlay);
+
+        textView = (TextView) findViewById(R.id.simpleTextView);
+        textView.setText(hintText);
 
         // read parameters from the intent used to launch the activity.
         boolean autoFocus = true;
